@@ -4,6 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from .img_model import ResNet50
+from .img_model import ViT
 from .text_model import RNN
 
 class Similarity(nn.Module):
@@ -20,6 +21,8 @@ class Similarity(nn.Module):
         print("  Loading image encoder ......")
         if img_encoder_type == "ResNet50":
             self.img_encoder = ResNet50(output_dim=output_dim)
+        elif img_encoder_type == "ViT":
+            self.img_encoder = ViT((3, 224, 224), n_patches=32, n_blocks=2, hidden_d=8, n_heads=2, output_dim=output_dim)
         else:
             raise ValueError("Unavailable image encoder")
         print("  Loading loss function ......")
